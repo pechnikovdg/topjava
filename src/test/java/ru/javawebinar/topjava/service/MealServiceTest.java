@@ -13,7 +13,6 @@ import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -41,14 +40,15 @@ public class MealServiceTest {
     }
 
     @Autowired
-    MealService service;
+    private MealService service;
 
     @Test
     public void get() {
-        Meal meal = service.get(START_SEQ + 6, USER_ID);
-        assertMatch(meal, MEAL_5);
+        Meal meal = service.get(Meal5User.getId(), USER_ID);
+        assertMatch(meal, Meal5User);
     }
 
+    @Test
     public void getNotFound() {
         assertThrows(NotFoundException.class, () -> service.delete(START_SEQ + 6, ADMIN_ID));
     }
@@ -68,7 +68,7 @@ public class MealServiceTest {
     public void update() {
         Meal updated = getUpdated();
         service.update(updated, USER_ID);
-        assertMatch(service.get(MEAL_4.getId(), USER_ID), getUpdated());
+        assertMatch(service.get(Meal4User.getId(), USER_ID), getUpdated());
     }
 
     @Test
@@ -80,12 +80,15 @@ public class MealServiceTest {
     @Test
     public void getBetweenInclusive() {
         List<Meal> meals = service.getBetweenInclusive(null, LocalDate.of(2020, 1, 30), USER_ID);
-        assertThat(meals).isEqualTo(Arrays.asList(MEAL_3, MEAL_2, MEAL_1));
+        for(Meal meal : meals) {
+            System.out.println(meal);
+        }
+        assertThat(meals).usingRecursiveFieldByFieldElementComparator().isEqualTo(Arrays.asList(Meal3User, Meal2User, Meal1User));
     }
 
     @Test
     public void getAll() {
-        assertThat(service.getAll(ADMIN_ID)).isEqualTo(Arrays.asList(MEAL_9, MEAL_8));
+        assertThat(service.getAll(ADMIN_ID)).usingRecursiveFieldByFieldElementComparator().isEqualTo(Arrays.asList(Meal9Admin, Meal8Admin));
     }
 
     @Test
@@ -100,8 +103,7 @@ public class MealServiceTest {
 
     @Test
     public void duplicateDateTimeCreate() {
-        Meal duplicate = new Meal(LocalDateTime.of(2020, 1, 30, 10, 0, 0),
-                "description", 100);
+        Meal duplicate = new Meal(Meal1User.getDateTime(), "description", 100);
         assertThrows(DataAccessException.class, () -> service.create(duplicate, USER_ID));
     }
 }
