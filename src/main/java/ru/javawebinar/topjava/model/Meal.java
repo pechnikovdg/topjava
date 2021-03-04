@@ -11,11 +11,11 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @NamedQueries({
-        @NamedQuery(name = Meal.ALL, query = "SELECT m FROM Meal m WHERE m.user.id =: userId ORDER BY m.dateTime DESC"),
-        @NamedQuery(name = Meal.ALL_BETWEEN_HALF_OPEN, query = "SELECT m FROM Meal m WHERE m.user.id =: userId " +
-                "AND m.dateTime >=: startDateTime AND m.dateTime <: endDateTime ORDER BY m.dateTime DESC"),
-        @NamedQuery(name = Meal.GET, query = "SELECT m FROM Meal m WHERE m.user.id =: userId AND m.id =: id"),
-        @NamedQuery(name = Meal.DELETE, query = "DELETE FROM Meal m WHERE m.user.id =: userId AND m.id =: id")
+        @NamedQuery(name = Meal.ALL, query = "SELECT m FROM Meal m WHERE m.user.id = :userId ORDER BY m.dateTime DESC"),
+        @NamedQuery(name = Meal.ALL_BETWEEN_HALF_OPEN, query = "SELECT m FROM Meal m WHERE m.user.id = :userId " +
+                "AND m.dateTime >= :startDateTime AND m.dateTime < :endDateTime ORDER BY m.dateTime DESC"),
+        @NamedQuery(name = Meal.GET, query = "SELECT m FROM Meal m WHERE m.user.id = :userId AND m.id = :id"),
+        @NamedQuery(name = Meal.DELETE, query = "DELETE FROM Meal m WHERE m.user.id = :userId AND m.id = :id")
 })
 @Entity
 @Table(name = "meals", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "date_time"}, name = "user_id_date_time_unique")})
@@ -40,6 +40,8 @@ public class Meal extends AbstractBaseEntity {
     private int calories;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    @NotNull
     private User user;
 
     public Meal() {
