@@ -16,9 +16,6 @@ public class DataJpaMealRepository implements MealRepository {
     private final CrudMealRepository crudMealRepository;
     private final CrudUserRepository crudUserRepository;
 
-    @PersistenceContext
-    private EntityManager em;
-
     public DataJpaMealRepository(CrudMealRepository crudMealRepository, CrudUserRepository crudUserRepository) {
         this.crudMealRepository = crudMealRepository;
         this.crudUserRepository = crudUserRepository;
@@ -27,11 +24,10 @@ public class DataJpaMealRepository implements MealRepository {
     @Override
     @Transactional
     public Meal save(Meal meal, int userId) {
-        meal.setUser(crudUserRepository.getOne(userId));
-        crudMealRepository.getOne(userId);
         if (!meal.isNew() && get(meal.id(), userId) == null) {
             return null;
         } else {
+            meal.setUser(crudUserRepository.getOne(userId));
             return crudMealRepository.save(meal);
         }
     }
