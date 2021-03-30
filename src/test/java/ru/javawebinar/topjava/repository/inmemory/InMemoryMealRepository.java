@@ -25,7 +25,7 @@ public class InMemoryMealRepository implements MealRepository {
     private final Map<Integer, InMemoryBaseRepository<Meal>> usersMealsMap = new ConcurrentHashMap<>();
 
     {
-        var userMeals = new InMemoryBaseRepository<Meal>();
+        InMemoryBaseRepository userMeals = new InMemoryBaseRepository<Meal>();
         MealTestData.meals.forEach(userMeals::put);
         usersMealsMap.put(UserTestData.USER_ID, userMeals);
     }
@@ -33,9 +33,10 @@ public class InMemoryMealRepository implements MealRepository {
 
     @Override
     public Meal save(Meal meal, int userId) {
-        Objects.requireNonNull(meal, "meal must not be null");
-        var meals = usersMealsMap.computeIfAbsent(userId, uid -> new InMemoryBaseRepository<>());
-        return meals.save(meal);
+//        Objects.requireNonNull(meal, "meal must not be null");
+//        InMemoryBaseRepository meals = usersMealsMap.computeIfAbsent(userId, uid -> new InMemoryBaseRepository<>());
+//        return meals.save(meal);
+        return null;
     }
 
     @PostConstruct
@@ -50,14 +51,16 @@ public class InMemoryMealRepository implements MealRepository {
 
     @Override
     public boolean delete(int id, int userId) {
-        var meals = usersMealsMap.get(userId);
-        return meals != null && meals.delete(id);
+//        var meals = usersMealsMap.get(userId);
+//        return meals != null && meals.delete(id);
+        return false;
     }
 
     @Override
     public Meal get(int id, int userId) {
-        var meals = usersMealsMap.get(userId);
-        return meals == null ? null : meals.get(id);
+//        var meals = usersMealsMap.get(userId);
+//        return meals == null ? null : meals.get(id);
+        return null;
     }
 
     @Override
@@ -71,11 +74,12 @@ public class InMemoryMealRepository implements MealRepository {
     }
 
     private List<Meal> filterByPredicate(int userId, Predicate<Meal> filter) {
-        var meals = usersMealsMap.get(userId);
-        return meals == null ? Collections.emptyList() :
-                meals.getCollection().stream()
-                        .filter(filter)
-                        .sorted(Comparator.comparing(Meal::getDateTime).reversed())
-                        .collect(Collectors.toList());
+//        var meals = usersMealsMap.get(userId);
+//        return meals == null ? Collections.emptyList() :
+//                meals.getCollection().stream()
+//                        .filter(filter)
+//                        .sorted(Comparator.comparing(Meal::getDateTime).reversed())
+//                        .collect(Collectors.toList());
+            return null;
     }
 }
