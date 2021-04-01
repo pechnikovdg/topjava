@@ -84,13 +84,26 @@ class MealRestControllerTest extends AbstractControllerTest {
         MEAL_MATCHER.assertMatch(mealService.get(updated.getId(), USER_ID), updated);
     }
 
+//    @Test
+//    void getBetween() throws Exception {
+//        perform(MockMvcRequestBuilders.get(REST_URL + "/filter")
+//                    .param("startDateTime", "2020-01-30T13:00")
+//                .param("endDateTime", "2020-01-30T21:00"))
+//                .andDo(print())
+//                .andExpect(content().contentTypeCompatibleWith(APPLICATION_JSON_VALUE))
+//                .andExpect(MEAL_TO_MATCHER.contentJson(getTos(Arrays.asList(meal3, meal2), USER_ID)));
+//    }
+
     @Test
     void getBetween() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL + "/filter")
-                .param("startDateTime", "2020-01-30T13:00")
-                .param("endDateTime", "2020-01-30T21:00"))
+                .param("startDate", "2019-01-01")
+                .param("endDate", "2022-02-02")
+                .param("startTime", "09:00:00")
+                .param("endTime", "23:00:00"))
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(APPLICATION_JSON_VALUE))
-                .andExpect(MEAL_TO_MATCHER.contentJson(getTos(Arrays.asList(meal3, meal2), USER_ID)));
+//                .andExpect(MEAL_TO_MATCHER.contentJson(getTos(Arrays.asList(meal3, meal2, meal1), USER_ID)));
+                .andExpect(MEAL_TO_MATCHER.contentJson(getTos(meals, USER_ID)));
     }
 }
