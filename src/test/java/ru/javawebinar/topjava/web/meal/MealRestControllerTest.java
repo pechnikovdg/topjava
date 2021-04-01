@@ -11,6 +11,7 @@ import ru.javawebinar.topjava.util.exception.NotFoundException;
 import ru.javawebinar.topjava.web.AbstractControllerTest;
 import ru.javawebinar.topjava.web.json.JsonUtil;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -21,6 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static ru.javawebinar.topjava.MealTestData.*;
 import static ru.javawebinar.topjava.TestUtil.readFromJson;
 import static ru.javawebinar.topjava.UserTestData.USER_ID;
+import static ru.javawebinar.topjava.UserTestData.user;
 import static ru.javawebinar.topjava.util.MealsUtil.getTos;
 import static ru.javawebinar.topjava.web.SecurityUtil.authUserCaloriesPerDay;
 
@@ -84,9 +86,11 @@ class MealRestControllerTest extends AbstractControllerTest {
 
     @Test
     void getBetween() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + "/filter?startDateTime=2020-01-30T13:00&endDateTime=2020-01-30T21:00"))
+        perform(MockMvcRequestBuilders.get(REST_URL + "/filter")
+                .param("startDateTime", "2020-01-30T13:00")
+                .param("endDateTime", "2020-01-30T21:00"))
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(APPLICATION_JSON_VALUE))
-                .andExpect(MEAL_TO_MATCHER.contentJson(getTos(List.of(meal3, meal2), authUserCaloriesPerDay())));
+                .andExpect(MEAL_TO_MATCHER.contentJson(getTos(Arrays.asList(meal3, meal2), USER_ID)));
     }
 }
