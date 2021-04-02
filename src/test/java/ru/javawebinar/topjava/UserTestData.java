@@ -3,13 +3,17 @@ package ru.javawebinar.topjava;
 import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 
+import static ru.javawebinar.topjava.MealTestData.adminMeal1;
+import static ru.javawebinar.topjava.MealTestData.adminMeal2;
 import static ru.javawebinar.topjava.model.AbstractBaseEntity.START_SEQ;
 
 public class UserTestData {
     public static final TestMatcher<User> USER_MATCHER = TestMatcher.usingIgnoringFieldsComparator(User.class, "registered", "meals");
+    public static final TestMatcher<User> USER_MATCHER_WITH_MEALS = TestMatcher.usingIgnoringFieldsComparator(User.class, "registered");
 
     public static final int USER_ID = START_SEQ;
     public static final int ADMIN_ID = START_SEQ + 1;
@@ -31,5 +35,11 @@ public class UserTestData {
         updated.setEnabled(false);
         updated.setRoles(Collections.singletonList(Role.ADMIN));
         return updated;
+    }
+
+    public static User getUserWithMeals() {
+        User userWithMeals = new User(admin);
+        userWithMeals.setMeals(Arrays.asList(adminMeal2, adminMeal1));
+        return userWithMeals;
     }
 }

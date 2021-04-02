@@ -68,15 +68,6 @@ public class MealRestController extends AbstractMealController {
         super.update(meal, id);
     }
 
-//    @GetMapping("/filter")
-//    public List<MealTo> getBetween(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) @RequestParam LocalDateTime startDateTime,
-//                                   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) @RequestParam LocalDateTime endDateTime) {
-//        return super.getBetween(startDateTime.toLocalDate(), startDateTime.toLocalTime(),
-//                endDateTime.toLocalDate(), endDateTime.toLocalTime());
-//    }
-
-    //2020-01-30T13:00
-
     @GetMapping("/filter")
     public List<MealTo> getBetweenRest(@RequestParam String startDate, @RequestParam String endDate,
                                        @RequestParam String startTime, @RequestParam String endTime) throws ParseException {
