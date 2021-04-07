@@ -28,7 +28,11 @@ function deleteRow(id) {
         url: ctx.ajaxUrl + id,
         type: "DELETE"
     }).done(function () {
-        updateTable();
+        if (ctx.ajaxUrl === "ui/meals/") {
+            filter();
+        } else if (ctx.ajaxUrl === "admin/users/") {
+            updateTable();
+        }
         successNoty("Deleted");
     });
 }
@@ -47,7 +51,11 @@ function save() {
         data: form.serialize()
     }).done(function () {
         $("#editRow").modal("hide");
-        updateTable();
+        if (ctx.ajaxUrl === "ui/meals/") {
+            filter();
+        } else if (ctx.ajaxUrl === "admin/users/") {
+            updateTable();
+        }
         successNoty("Saved");
     });
 }

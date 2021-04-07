@@ -45,3 +45,12 @@ $(function () {
         })
     );
 });
+
+// не успел доделать
+function changeEnabled() {
+    if ($('#enabled').attr('checked') === 'checked') {
+
+    } else {
+
+    }
+}

@@ -38,3 +38,19 @@ $(function () {
     );
 });
 
+function filter() {
+    const filterForm = $('#filterForm');
+    $.ajax({
+        type: "GET",
+        url: ctx.ajaxUrl  + "filter",
+        data: filterForm.serialize()
+    }).done(function (filteredData) {
+        updateTableFiltered(filteredData);
+        successNoty("Filtered");
+    })
+}
+
+function updateTableFiltered(filteredData) {
+    ctx.datatableApi.clear().rows.add(filteredData).draw();
+}
+
