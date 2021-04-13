@@ -20,11 +20,21 @@ function clearFilter() {
 $(function () {
     makeEditable(
         $("#datatable").DataTable({
+            "ajax": {
+                "url": mealAjaxUrl,
+                "dataSrc": ""
+            },
             "paging": false,
             "info": true,
             "columns": [
                 {
-                    "data": "dateTime"
+                    "data": "dateTime",
+                    "render": function (data, type, row) {
+                        if (type === 'display') {
+                            return data.replace('T', ' ');
+                        }
+                        return data;
+                    }
                 },
                 {
                     "data": "description"
@@ -33,12 +43,14 @@ $(function () {
                     "data": "calories"
                 },
                 {
-                    "defaultContent": "Edit",
-                    "orderable": false
+                    "render": renderEditBtn,
+                    "orderable": false,
+                    "defaultContent": ""
                 },
                 {
-                    "defaultContent": "Delete",
-                    "orderable": false
+                    "render": renderDeleteBtn,
+                    "orderable": false,
+                    "defaultContent": ""
                 }
             ],
             "order": [
@@ -46,7 +58,10 @@ $(function () {
                     0,
                     "desc"
                 ]
-            ]
+            ],
+            "createdRow": function (row, data, dataIndex) {
+                $(row).attr("data-mealExcess", data.excess);
+            }
         })
     );
 });
