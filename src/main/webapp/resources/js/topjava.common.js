@@ -1,5 +1,23 @@
 let form;
 
+$('#startDate,#endDate').each(function() {
+    $(this).datetimepicker({
+        timepicker:false,
+        format:'Y-m-d'
+    });
+});
+
+$('#startTime,#endTime').each(function() {
+    $(this).datetimepicker({
+        datepicker:false,
+        format:'H:i'
+    });
+});
+
+$('#dateTime').datetimepicker({
+    format:'Y-m-d H:i'
+});
+
 function makeEditable(datatableApi) {
     ctx.datatableApi = datatableApi;
 
